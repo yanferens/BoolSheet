@@ -1,0 +1,72 @@
+# ============================================================
+# BoolSheet — files that must never get into the repository
+# ============================================================
+
+# ---------- Secrets ----------
+# Google OAuth client (downloaded from Google Cloud Console)
+client_secret*.json
+# Google sign-in tokens, if they ever end up next to the project
+GoogleAuth/
+*.pfx
+*.snk
+
+# ---------- Build output ----------
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rm64/
+[Ll]og/
+[Ll]ogs/
+artifacts/
+publish/
+AppPackages/
+BundleArtifacts/
+*.msix
+*.msixbundle
+*.appx
+
+# ---------- Visual Studio / Rider / VS Code ----------
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+launchSettings.local.json
+
+# ---------- NuGet ----------
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+project.lock.json
+project.fragment.lock.json
+
+# ---------- Tests and coverage ----------
+[Tt]est[Rr]esult*/
+*.trx
+coverage*.json
+coverage*.xml
+coverage*.info
+*.coverage
+*.coveragexml
+
+# ---------- ANTLR (generated into obj/ by Antlr4BuildTasks; ignore stray copies) ----------
+.antlr/
+*.interp
+*.tokens
+
+# ---------- App logs ----------
+crash.log
+
+# ---------- OS junk ----------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
