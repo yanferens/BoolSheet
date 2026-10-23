@@ -118,6 +118,40 @@ public class RobustnessTests
         Assert.Equal(new BigInteger(expected), cell.Value);
     }
 
+    // ---------- Negative numbers (unary minus) ----------
+
+    [Theory]
+    [InlineData("-5", -5)]
+    [InlineData("--5", 5)]
+    [InlineData("2 - -3", 5)]
+    [InlineData("-2 * 3", -6)]
+    [InlineData("-(2 + 3) * 2", -10)]
+    [InlineData("-7 / 2", -3)]      // truncates toward zero
+    [InlineData("-7 div 2", -4)]    // rounds down
+    [InlineData("-7 mod 2", 1)]     // consistent with div: -7 = 2 * (-4) + 1
+    [InlineData("-A1", 0)]          // A1 is empty
+    public void UnaryMinus_GivesNegativeNumbers(string expression, int expected)
+    {
+        Cell cell = Evaluate(expression);
+
+        Assert.False(cell.HasError, cell.ErrorMessage);
+        Assert.Equal(new BigInteger(expected), cell.Value);
+    }
+
+    [Theory]
+    [InlineData("not -5", 0)]       // a negative number is true, so "not" gives false
+    [InlineData("not not -5", 1)]
+    [InlineData("-5 <> 0", 1)]
+    [InlineData("-3 < -2", 1)]
+    public void NegativeNumber_IsTrue(string expression, int expected)
+    {
+        Cell cell = Evaluate(expression);
+
+        Assert.False(cell.HasError, cell.ErrorMessage);
+        Assert.Equal(new BigInteger(expected), cell.Value);
+        Assert.True(Logic.IsTrue(new BigInteger(-5)));
+    }
+
     // ---------- R13: every operator of the tree is implemented ----------
 
     [Fact]

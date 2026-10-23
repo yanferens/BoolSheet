@@ -1,12 +1,13 @@
 // BoolSheet expression grammar (lab variant 30).
-// Operators: + - * /   mod div   = < >   <= >= <>   not
+// Operators: + - * /   mod div   = < >   <= >= <>   not   and unary minus (-5, -A1)
 // Precedence, from lowest to highest:
 //   1) not          (in front of a whole expression: "not A1 > 2" = not (A1 > 2))
 //   2) comparison   = <> < > <= >=   (not chainable: "1 < 2 < 3" is a syntax error)
 //   3) additive     + -
 //   4) multiplicative  * / mod div
-//   5) number, cell reference, (expression), not operand
-//      (inside a comparison or arithmetic "not" applies to one operand: "A1 = not B1")
+//   5) number, cell reference, (expression), not operand, unary minus
+//      (inside a comparison or arithmetic "not" applies to one operand: "A1 = not B1";
+//       a minus applies to one operand too: "-2 * 3" = (-2) * 3, "2 - -3" = 5)
 
 grammar BoolSheet;
 
@@ -30,6 +31,7 @@ atom           : NUMBER                                 # NumberAtom
                | CELL                                   # CellAtom
                | LPAREN expression RPAREN               # ParenAtom
                | NOT atom                               # NotAtom
+               | MINUS atom                             # NegateAtom
                ;
 
 // ---------- Lexer rules ----------

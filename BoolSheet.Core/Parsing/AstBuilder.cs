@@ -57,6 +57,10 @@ internal sealed class AstBuilder : BoolSheetBaseVisitor<INode>
     public override INode VisitNotAtom(BoolSheetParser.NotAtomContext context)
         => new UnaryNotNode(Visit(context.atom()));
 
+    // Negative numbers: -5, -A1, -(2 + 3).
+    public override INode VisitNegateAtom(BoolSheetParser.NegateAtomContext context)
+        => new NegateNode(Visit(context.atom()));
+
     /// <summary>
     /// The rule's children alternate: operand, operator, operand, operator, ...
     /// They are combined left to right, so 10 - 3 - 2 = (10 - 3) - 2.

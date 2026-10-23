@@ -45,7 +45,6 @@ public class FormulaParserTests
     [InlineData("A1 +", 4)]        // missing right operand
     [InlineData("(1 + 2", 6)]      // missing closing parenthesis
     [InlineData("2 & 3", 2)]       // invalid character
-    [InlineData("-5", 0)]          // variant 30 has no unary minus
     [InlineData("", 0)]
     public void ValidateSyntax_InvalidExpression_ReportsErrorPosition(string expression, int position)
     {
