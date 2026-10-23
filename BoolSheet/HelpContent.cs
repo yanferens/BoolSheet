@@ -1,4 +1,4 @@
-namespace BoolSheet;
+﻿namespace BoolSheet;
 
 /// <summary>User-facing help texts shown from the "Довідка" menu.</summary>
 public static class HelpContent
@@ -58,6 +58,6 @@ public static class HelpContent
         Лабораторна робота №1*, варіант 30.
         Синтаксичний аналіз виразів — ANTLR 4, інтерфейс — .NET MAUI.
 
-        Автор: <ім'я, прізвище, група>
+        Автор: Ференс Ян Дмитрович, К-28
         """;
 }
