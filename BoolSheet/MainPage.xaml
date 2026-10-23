@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BoolSheet.ViewModels"
+             x:Class="BoolSheet.MainPage"
+             x:DataType="vm:MainViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource AppBackgroundLight}, Dark={StaticResource AppBackgroundDark}}">
+
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="Файл">
+            <MenuFlyoutItem Text="Нова таблиця" Clicked="OnNewClicked">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Ctrl" Key="N" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Відкрити…" Clicked="OnOpenClicked">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Ctrl" Key="O" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Text="Зберегти" Clicked="OnSaveClicked">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Ctrl" Key="S" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Зберегти як…" Clicked="OnSaveAsClicked">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Ctrl,Shift" Key="S" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Text="Відкрити з Google Drive…" Clicked="OnOpenDriveClicked" />
+            <MenuFlyoutItem Text="Зберегти на Google Drive…" Clicked="OnSaveDriveClicked" />
+            <MenuFlyoutItem Text="Вийти з Google акаунта" Clicked="OnDriveSignOutClicked" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Text="Вийти" Clicked="OnExitClicked" />
+        </MenuBarItem>
+
+        <MenuBarItem Text="Таблиця">
+            <MenuFlyoutItem Text="Додати рядок" Clicked="OnAddRowClicked" />
+            <MenuFlyoutItem Text="Додати стовпчик" Clicked="OnAddColumnClicked" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Text="Видалити рядок вибраної клітинки" Clicked="OnDeleteRowClicked" />
+            <MenuFlyoutItem Text="Видалити стовпчик вибраної клітинки" Clicked="OnDeleteColumnClicked" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Text="Очистити клітинку" Clicked="OnClearCellClicked" />
+        </MenuBarItem>
+
+        <MenuBarItem Text="Вигляд">
+            <MenuFlyoutItem Text="Перемкнути режим ВИРАЗ / ЗНАЧЕННЯ" Clicked="OnToggleModeClicked">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Ctrl" Key="E" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+        </MenuBarItem>
+
+        <MenuBarItem Text="Довідка">
+            <MenuFlyoutItem Text="Як користуватися" Clicked="OnHelpClicked">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F1" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Про програму" Clicked="OnAboutClicked" />
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto"
+          Padding="12,10,12,6"
+          RowSpacing="8">
+
+        <!-- Toolbar: the most used commands, so the menu is not the only way to reach them -->
+        <Border Style="{StaticResource Card}" Padding="4">
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="2">
+                    <Button Style="{StaticResource ToolButton}" Text="Нова" Clicked="OnNewClicked"
+                            ToolTipProperties.Text="Нова таблиця (Ctrl+N)" />
+                    <Button Style="{StaticResource ToolButton}" Text="Відкрити" Clicked="OnOpenClicked"
+                            ToolTipProperties.Text="Відкрити файл з диска (Ctrl+O)" />
+                    <Button Style="{StaticResource ToolButton}" Text="Зберегти" Clicked="OnSaveClicked"
+                            ToolTipProperties.Text="Зберегти (Ctrl+S)" />
+
+                    <BoxView Style="{StaticResource ToolSeparator}" />
+
+                    <Button Style="{StaticResource ToolButton}" Text="Відкрити з Drive" Clicked="OnOpenDriveClicked"
+                            ToolTipProperties.Text="Відкрити таблицю з Google Drive" />
+                    <Button Style="{StaticResource ToolButton}" Text="Зберегти на Drive" Clicked="OnSaveDriveClicked"
+                            ToolTipProperties.Text="Зберегти таблицю на Google Drive як новий файл" />
+
+                    <BoxView Style="{StaticResource ToolSeparator}" />
+
+                    <Button Style="{StaticResource ToolButton}" Text="+ Рядок" Clicked="OnAddRowClicked"
+                            ToolTipProperties.Text="Додати рядок у кінець таблиці" />
+                    <Button Style="{StaticResource ToolButton}" Text="+ Стовпчик" Clicked="OnAddColumnClicked"
+                            ToolTipProperties.Text="Додати стовпчик у кінець таблиці" />
+                    <Button Style="{StaticResource ToolButton}" Text="− Рядок" Clicked="OnDeleteRowClicked"
+                            ToolTipProperties.Text="Видалити рядок вибраної клітинки" />
+                    <Button Style="{StaticResource ToolButton}" Text="− Стовпчик" Clicked="OnDeleteColumnClicked"
+                            ToolTipProperties.Text="Видалити стовпчик вибраної клітинки" />
+
+                    <BoxView Style="{StaticResource ToolSeparator}" />
+
+                    <Button Style="{StaticResource ToolButton}" Text="Довідка" Clicked="OnHelpClicked"
+                            ToolTipProperties.Text="Як користуватися (F1)" />
+                </HorizontalStackLayout>
+            </ScrollView>
+        </Border>
+
+        <!-- Formula bar: selected cell name, expression editor and actions -->
+        <Border Grid.Row="1" Style="{StaticResource Card}">
+            <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto,Auto" ColumnSpacing="8">
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource AccentSoftLight}, Dark={StaticResource AccentSoftDark}}"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 6"
+                        Padding="0"
+                        WidthRequest="64"
+                        HeightRequest="34">
+                    <Label Text="{Binding SelectedCellName}"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="14"
+                           TextColor="{AppThemeBinding Light={StaticResource AccentLight}, Dark={StaticResource AccentDark}}"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center" />
+                </Border>
+
+                <Label Grid.Column="1"
+                       Text="fx"
+                       FontAttributes="Italic"
+                       FontSize="15"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                       VerticalOptions="Center" />
+
+                <!-- The Windows text box draws its own border and focus line -->
+                <Entry x:Name="FormulaEntry"
+                       Grid.Column="2"
+                       Text="{Binding FormulaText}"
+                       Placeholder="Введіть вираз, наприклад: A1 + 5 > B2, і натисніть Enter"
+                       PlaceholderColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                       BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                       FontFamily="Consolas"
+                       FontSize="14"
+                       VerticalOptions="Center"
+                       ReturnCommand="{Binding CommitFormulaCommand}" />
+
+                <Button Grid.Column="3"
+                        Style="{StaticResource PrimaryButton}"
+                        Text="Застосувати"
+                        Command="{Binding CommitFormulaCommand}"
+                        ToolTipProperties.Text="Застосувати вираз (Enter)" />
+                <Button Grid.Column="4"
+                        Style="{StaticResource SecondaryButton}"
+                        Text="Очистити"
+                        Command="{Binding ClearCellCommand}"
+                        ToolTipProperties.Text="Очистити вибрану клітинку" />
+                <Button Grid.Column="5"
+                        Style="{StaticResource SecondaryButton}"
+                        Text="{Binding DisplayModeButtonText}"
+                        Command="{Binding ToggleDisplayModeCommand}"
+                        ToolTipProperties.Text="Показувати вирази або значення (Ctrl+E)" />
+            </Grid>
+        </Border>
+
+        <!-- The sheet itself; rows, columns and cells are created in code (BuildSheet).
+             The 1px spacing over a grey background draws the grid lines. -->
+        <Border Grid.Row="2" Style="{StaticResource Card}" Padding="0">
+            <ScrollView Orientation="Both">
+                <Grid x:Name="SheetLayout"
+                      BackgroundColor="{AppThemeBinding Light={StaticResource GridLineLight}, Dark={StaticResource GridLineDark}}"
+                      HorizontalOptions="Start"
+                      VerticalOptions="Start" />
+            </ScrollView>
+        </Border>
+
+        <!-- Status bar -->
+        <Grid Grid.Row="3" ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="8" Padding="4,2">
+            <Label Text="{Binding StatusText}"
+                   Style="{StaticResource SecondaryLabel}"
+                   VerticalOptions="Center"
+                   LineBreakMode="TailTruncation" />
+            <ActivityIndicator Grid.Column="1"
+                               IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               Color="{AppThemeBinding Light={StaticResource AccentLight}, Dark={StaticResource AccentDark}}"
+                               HeightRequest="18"
+                               WidthRequest="18" />
+            <Border Grid.Column="2" Style="{StaticResource Chip}" ToolTipProperties.Text="Де збережено таблицю">
+                <Label Text="{Binding LocationText}" Style="{StaticResource ChipLabel}" />
+            </Border>
+            <Border Grid.Column="3" Style="{StaticResource Chip}" ToolTipProperties.Text="Рядків × стовпчиків">
+                <Label Text="{Binding SizeText}" Style="{StaticResource ChipLabel}" />
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>
